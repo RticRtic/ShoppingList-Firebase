@@ -6,6 +6,8 @@ import android.widget.Toast
 import com.google.firebase.firestore.DocumentId
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.tasks.await
 import kotlinx.coroutines.withContext
 import kotlin.Exception
 
@@ -38,7 +40,9 @@ data class DefaultFirebaseProviderItem(
     override fun updateCheckboxToFb(item: DefaultFirebaseProviderItem) {
         try {
             item.documentID?.let { id ->
-                firebaseRef.document(id).update("checkbox", item.checkbox)
+                firebaseRef.document(id).update("checkbox", item.checkbox).addOnSuccessListener {
+                    Log.d(TAG, "updateCheckboxToFb: Document Success Updated")
+                }
             }
         } catch (e: Exception) {
             Log.d(TAG, "updateCheckboxToFb: $e")
@@ -49,7 +53,9 @@ data class DefaultFirebaseProviderItem(
         try {
             if (item.checkbox) {
                 item.documentID?.let { id ->
-                    firebaseRef.document(id).delete()
+                    firebaseRef.document(id).delete().addOnSuccessListener {
+                        Log.d(TAG, "deleteItemFromFb: Document Success deleted")
+                    }
                 }
             }
         } catch (e: Exception) {

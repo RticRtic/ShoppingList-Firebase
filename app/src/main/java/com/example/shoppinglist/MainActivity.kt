@@ -1,6 +1,7 @@
 package com.example.shoppinglist
 
 import android.os.Bundle
+import android.view.View
 import android.widget.EditText
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
@@ -18,7 +19,7 @@ interface MainView {
 class MainActivity : AppCompatActivity(), MainView {
 
     private lateinit var viewModel: MainActivityViewModel
-    private val shoppingListAdapter = ShoppingListAdapter(mutableListOf())
+    private var shoppingListAdapter = ShoppingListAdapter(mutableListOf())
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

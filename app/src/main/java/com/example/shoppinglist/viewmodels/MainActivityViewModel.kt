@@ -29,7 +29,7 @@ class MainActivityViewModel : ViewModel() {
         item.addItemToFb(item)
     }
 
-    private fun listenForItemUpdates() = CoroutineScope(Dispatchers.IO).launch {
+    private fun listenForItemUpdates() {
         val items = mutableListOf<DefaultFirebaseProviderItem>()
         firebaseRef.addSnapshotListener { snapshot, error ->
             snapshot?.let { querySnapshot ->
@@ -40,12 +40,11 @@ class MainActivityViewModel : ViewModel() {
                         queryItem?.documentID = document.id
                         if (queryItem != null) {
                             items.add(queryItem)
-
                         }
                     }
                     view?.setData(items)
                 } catch (e: Exception) {
-
+                    Log.d(TAG, "listenForItemUpdates: $e")
                 }
             }
             error?.let {
